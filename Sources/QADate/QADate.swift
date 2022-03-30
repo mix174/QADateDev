@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Components
 
-enum Components: CaseIterable {
+public enum Components: CaseIterable {
     case year
     case month
     case hour
@@ -23,7 +23,7 @@ enum Components: CaseIterable {
 
 /// Общий enum для DateFormat  с возможностью задавать как кастомную строку так и спец.кейсы
 /// Создан для упрощения работы с DateFormat и сокращения конвертеров
-enum CommonDateFormat {
+public enum CommonDateFormat {
     case custom(String)
     case dateFormat(DateFormat)
 
@@ -37,7 +37,7 @@ enum CommonDateFormat {
     }
 }
 
-enum DateFormat: String {
+public enum DateFormat: String {
     /// Формат даты: dd.MM.yyyy — День.Месяц.Год
     case dayMonthYear = "dd.MM.yyyy"
     /// Формат даты: dd.MM — День.Месяц
@@ -50,7 +50,7 @@ enum DateFormat: String {
     case yearMothDayTime = "yyyy-MM-dd'T'HH:mm:ss"
 }
 
-typealias QADateComponets = (year: Int?, month: Int?, day: Int?)?
+public typealias QADateComponets = (year: Int?, month: Int?, day: Int?)?
 
 // MARK: - QADate
 
@@ -60,42 +60,42 @@ public struct QADate {
     private var dateComponents: DateComponents
     private let calendar: Calendar
     
-    var year: Int? {
+    public var year: Int? {
         dateComponents.year
     }
 
-    var month: Int? {
+    public var month: Int? {
         dateComponents.month
     }
 
-    var day: Int? {
+    public var day: Int? {
         dateComponents.day
     }
 
-    var hour: Int? {
+    public var hour: Int? {
         dateComponents.hour
     }
 
-    var min: Int? {
+    public var min: Int? {
         dateComponents.minute
     }
 
-    var sec: Int? {
+    public var sec: Int? {
         dateComponents.second
     }
 
-    var miliSec: Int? {
+    public var miliSec: Int? {
         dateComponents.nanosecond
     }
 
     /// 1 - sunday
-    var weekDay: Int? {
+    public var weekDay: Int? {
         guard let date = dateComponents.date else { return nil }
         return calendar.component(.weekday, from: date)
     }
 
     /// true, если месяц високосный
-    var isLeapMonth: Bool? {
+    public var isLeapMonth: Bool? {
         dateComponents.isLeapMonth
     }
 
@@ -108,7 +108,7 @@ public struct QADate {
     // MARK: - Init
     /// основной инит с проверкой и исправлением значений
     /// Все параметры опциональные с предустановленными значения, можно удалять ненужные из инита
-    init(calendar: Calendar? = nil, timeZone: TimeZone? = nil, year: Int? = nil, month: Int? = nil, day: Int? = nil, hour: Int? = nil, min: Int? = nil, sec: Int? = nil, miliSec: Int? = nil) {
+    public init(calendar: Calendar? = nil, timeZone: TimeZone? = nil, year: Int? = nil, month: Int? = nil, day: Int? = nil, hour: Int? = nil, min: Int? = nil, sec: Int? = nil, miliSec: Int? = nil) {
         let actualCalendar = calendar ?? Calendar.current
         let actualTimeZone = timeZone ?? TimeZone.current
         self.calendar = actualCalendar
@@ -133,12 +133,17 @@ public struct QADate {
         self.dateComponents = DateComponents(calendar: Calendar.current, timeZone: TimeZone.current, era: nil, year: meta.year, month: meta.month, day: meta.day, hour: meta.hour, minute: meta.minute, second: meta.second, nanosecond: meta.nanosecond, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: nil, yearForWeekOfYear: nil)
     }
     
-    init?(_ stringDate: String, format: CommonDateFormat) {
+    public init?(_ stringDate: String, format: CommonDateFormat) {
         guard let date = QADate.convert(date: stringDate, type: format.get()) else { return nil }
         let meta = Calendar.current.dateComponents(in: TimeZone.current, from: date)
         self.calendar = Calendar.current
         self.dateComponents = DateComponents(calendar: Calendar.current, timeZone: TimeZone.current, era: nil, year: meta.year, month: meta.month, day: meta.day, hour: meta.hour, minute: meta.minute, second: meta.second, nanosecond: meta.nanosecond, weekday: nil, weekdayOrdinal: nil, quarter: nil, weekOfMonth: nil, weekOfYear: nil, yearForWeekOfYear: nil)
     }
+}
+
+// MARK: - Public funcs
+
+public extension QADate {
     
     // MARK: - Output
     /// получение строки с одним из предустановленных в DateFormat варианте
@@ -300,9 +305,9 @@ public struct QADate {
     }
 }
 
-// MARK: - Static Extension QADate
+// MARK: - Static Public funcs
 
-extension QADate {
+public extension QADate {
 
     // MARK: - Internal static funcs
     /// аналогие на min(x,y): возвращает более раннюю дату (сравнивается Date())
