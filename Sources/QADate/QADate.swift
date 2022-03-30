@@ -54,7 +54,7 @@ typealias QADateComponets = (year: Int?, month: Int?, day: Int?)?
 
 // MARK: - QADate
 
-struct QADate {
+public struct QADate {
     
     // MARK: - Preperties
     private var dateComponents: DateComponents
@@ -101,7 +101,7 @@ struct QADate {
 
     /// Дата (Date()), сформированная из установленных компонентов
     /// Для вывода лучше использовать getDefaultString или getCustomString
-    var date: Date? {
+    public var date: Date? {
         return dateComponents.date
     }
     
@@ -118,7 +118,7 @@ struct QADate {
     }
 
     /// инит с текущим временем по умолчанию
-    init(calendar: Calendar?, timeZone: TimeZone? = nil) {
+    public init(calendar: Calendar?, timeZone: TimeZone? = nil) {
         let actualCalendar = calendar ?? Calendar.current
         self.calendar = actualCalendar
         let meta = actualCalendar.dateComponents(in: timeZone ?? TimeZone.current, from: Date())
@@ -126,7 +126,7 @@ struct QADate {
     }
 
     /// инит со всеми текущими данными по умолчанию
-    init() {
+    public init() {
         // Промежуточное значение, так как если сразу импортировать из Date() в self.dateComponents, то есть баги
         let meta = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
         self.calendar = Calendar.current
