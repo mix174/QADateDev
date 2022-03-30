@@ -96,7 +96,7 @@ public struct QADate {
 
     /// true, если месяц високосный
     var isLeapMonth: Bool? {
-        dateComponents.isLeapMonthDefault
+        dateComponents.isLeapMonth
     }
 
     /// Дата (Date()), сформированная из установленных компонентов
