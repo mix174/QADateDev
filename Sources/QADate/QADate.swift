@@ -173,12 +173,17 @@ public extension QADate {
     /// при увеличении/уменьшении 1 компонента, остальные меняются автоматически
     /// для увеличения - toIncrease: true (по умолчанию), для уменьшения: fasle
     mutating func change(component: Components, by value: Int, toIncrease: Bool = true) {
+        var targetMonth: Int = .zero
         switch component {
         case .year:
             guard let year = dateComponents.year else { return }
             dateComponents.year = toIncrease ? year + value : year - value
         case .month:
             guard let month = dateComponents.month else { return }
+            targetMonth = (toIncrease ? month + value : month - value) % 12
+            while targetMonth < .zero {
+                targetMonth += 12
+            }
             dateComponents.month = toIncrease ? month + value : month - value
         case .day:
             guard let day = dateComponents.day else { return }
@@ -219,6 +224,14 @@ public extension QADate {
         }
         if miliSec != nil {
             dateComponents.nanosecond = calendar.component(.nanosecond, from: date)
+        }
+        // перепроверка месяца + изменение дня при несоответствии
+        switch component {
+        case .month:
+            while dateComponents.month! != targetMonth {
+                change(component: .day, by: 1, toIncrease: false)
+            }
+        default: break
         }
     }
     
